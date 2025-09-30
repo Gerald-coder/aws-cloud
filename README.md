@@ -1,2 +1,0 @@
-# aws-cloud
-aws assignment
