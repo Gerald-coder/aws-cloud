@@ -15,7 +15,6 @@
 - Preventing public access misconfigurations.
 - Choosing appropriate storage classes.
 
----
 
 ## Summary
 

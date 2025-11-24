@@ -17,4 +17,3 @@
 6. (Optional) Enable **Replicate existing objects**.
 7. Save the rule.
 
----
