@@ -32,4 +32,3 @@
 - Lowest-cost storage tier.
 - Hours-long retrieval, ideal for long-term compliance data.
 
----
