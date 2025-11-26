@@ -1,0 +1,114 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: >
+  infra-stack.yaml - CloudFormation template that creates an EC2 (Amazon Linux 2),
+  a security group (HTTP open, SSH restricted), and an S3 bucket with versioning.
+
+Parameters:
+  KeyName:
+    Type: AWS::EC2::KeyPair::KeyName
+    Default: cloudformation-key
+    Description: Name of an existing EC2 KeyPair to enable SSH access to the instance.
+  MyIp:
+    Type: String
+    Default: 197.211.53.108/32
+    Description: >
+      Your public IP (in CIDR form). Use x.x.x.x/32 to restrict SSH to a single IP.
+      Default 0.0.0.0/0 is for demo only.
+  InstanceType:
+    Type: String
+    Default: t3.micro
+    AllowedValues:
+      - t2.micro
+      - t3.micro
+      - t3.small
+    Description: EC2 instance type.
+  VpcId:
+    Type: AWS::EC2::VPC::Id
+    Description: VPC Id where the EC2 instance will be launched. Leave empty to use default VPC.
+    Default: "vpc-0fd656aa2607e107e"
+
+  # Use SSM Parameter for latest Amazon Linux 2 AMI
+  LatestAmi:
+    Type: AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>
+    Default: /aws/service/ami-amazon-linux-latest/amzn2-ami-hvm-x86_64-gp2
+    Description: SSM parameter that resolves to the latest Amazon Linux 2 AMI ID.
+
+Resources:
+  WebSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Allow HTTP from anywhere and SSH from MyIp
+      VpcId: !Ref VpcId # if you manage VPC externally, remove or replace
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 80
+          ToPort: 80
+          CidrIp: 0.0.0.0/0
+        - IpProtocol: tcp
+          FromPort: 22
+          ToPort: 22
+          CidrIp: !Ref MyIp
+      Tags:
+        - Key: Name
+          Value: web-sg
+
+  WebServerInstance:
+    Type: AWS::EC2::Instance
+    Properties:
+      InstanceType: !Ref InstanceType
+      ImageId: !Ref LatestAmi
+      KeyName: !Ref KeyName
+      SecurityGroupIds:
+        - !Ref WebSecurityGroup
+      UserData:
+        Fn::Base64: !Sub |
+          #!/bin/bash
+          set -e
+          # Update and install nginx
+          yum update -y
+          amazon-linux-extras enable nginx1
+          yum install -y nginx
+          systemctl enable --now nginx
+          # Create a simple index page
+          cat > /usr/share/nginx/html/index.html <<'HTML'
+          <!doctype html>
+          <html>
+            <head><title>Hello</title></head>
+            <body><h1>Hello from CloudFormation EC2</h1></body>
+          </html>
+          HTML
+          # ensure permissions
+          chown nginx:nginx /usr/share/nginx/html/index.html
+      Tags:
+        - Key: Name
+          Value: cf-web-server
+
+  UniqueS3Bucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: !Sub "${AWS::StackName}-${AWS::AccountId}-${AWS::Region}"
+      VersioningConfiguration:
+        Status: Enabled
+      Tags:
+        - Key: Name
+          Value: !Sub "${AWS::StackName}-bucket"
+# Outputs:
+#   InstanceId:
+#     Description: EC2 Instance ID
+#     Value: !Ref WebServerInstance
+
+#   InstancePublicIP:
+#     Description: Public IP of the EC2 instance
+#     Value: !GetAtt WebServerInstance.PublicIp
+
+#   InstancePublicDNS:
+#     Description: Public DNS
+#     Value: !GetAtt WebServerInstance.PublicDnsName
+
+#   WebURL:
+#     Description: HTTP URL for the instance
+#     Value: !Sub "http://${WebServerInstance.PublicDnsName}/"
+
+#   S3BucketName:
+#     Description: S3 bucket name created with versioning enabled
+#     Value: !Ref UniqueS3Bucket
