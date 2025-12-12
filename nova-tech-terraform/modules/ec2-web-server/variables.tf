@@ -28,3 +28,8 @@ variable "key_name" {
   description = "SSH key name"
   type        = string
 }
+variable "count" {
+  description = "number of ec2"
+  default = 2
+  type = number
+}

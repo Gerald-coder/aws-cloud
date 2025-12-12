@@ -1,5 +1,11 @@
 # main.tf — VPC (Terraform Registry module)
 
+# Query available AZs in the region so the module can pick 2 AZs
+data "aws_availability_zones" "available" {
+  state = "available"
+}
+
+
 module "vpc" {
   source  = "terraform-aws-modules/vpc/aws"
   version = "~> 3.0"
