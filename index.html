@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Gerald Oduigwe — Software Engineer</title>
+    <meta
+      name="description"
+      content="Professional portfolio of Gerald Oduigwe — web & blockchain developer."
+    />
+    <link rel="stylesheet" href="index.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container header-inner">
+        <a class="brand" href="#">Gerald O.</a>
+        <nav class="nav">
+          <a href="#about">About</a>
+          <a href="#work">Work</a>
+          <a href="#contact">Contact</a>
+        </nav>
+        <a class="cta" href="#contact">Hire me</a>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div class="container hero-grid">
+          <div class="hero-copy">
+            <h1>Hi — I build beautiful, reliable web & blockchain apps.</h1>
+            <p>
+              I'm a software engineer specialising in React, TypeScript, and
+              decentralized systems. I design and ship production-ready
+              frontends and smart contracts.
+            </p>
+            <p class="hero-actions">
+              <a class="btn" href="#work">See my work</a>
+              <a class="btn ghost" href="#contact">Contact</a>
+            </p>
+          </div>
+          <div class="hero-image" aria-hidden="true">
+            <!-- Unsplash image (royalty-free) used as a design placeholder -->
+            <img
+              src="https://images.unsplash.com/photo-1526378720352-6b9a8ad8f7d8?w=1200&q=80&auto=format&fit=crop"
+              alt="Workspace with laptop and coffee"
+            />
+          </div>
+        </div>
+      </section>
+
+      <section id="about" class="container about">
+        <h2>About me</h2>
+        <div class="about-grid">
+          <div class="about-text">
+            <p>
+              I build web applications and smart contracts with a focus on
+              security, usability and performance. I have experience with React,
+              Node.js, Solidity, and cloud deployments.
+            </p>
+            <ul>
+              <li>4+ years building React applications</li>
+              <li>Solidity & Web3 development</li>
+              <li>CI / CD and AWS deployments</li>
+            </ul>
+          </div>
+          <div class="about-photo">
+            <img
+              src="https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=800&q=80&auto=format&fit=crop"
+              alt="Portrait placeholder"
+            />
+          </div>
+        </div>
+      </section>
+
+      <section id="work" class="container work">
+        <h2>Selected work</h2>
+        <div class="card-grid">
+          <article class="card">
+            <img
+              src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=1200&q=80&auto=format&fit=crop"
+              alt="Project screenshot"
+            />
+            <div class="card-body">
+              <h3>Decentralized Real Estate DApp</h3>
+              <p>
+                Property NFTs, marketplace flow and on-chain ownership
+                verification.
+              </p>
+              <p class="card-meta">React • Solidity • Hardhat</p>
+            </div>
+          </article>
+
+          <article class="card">
+            <img
+              src="https://images.unsplash.com/photo-1518779578993-ec3579fee39f?w=1200&q=80&auto=format&fit=crop"
+              alt="Project screenshot"
+            />
+            <div class="card-body">
+              <h3>Crowdfunding Platform</h3>
+              <p>Smart contract backed crowdfunding with an admin dashboard.</p>
+              <p class="card-meta">Next.js • Thirdweb • Supabase</p>
+            </div>
+          </article>
+
+          <article class="card">
+            <img
+              src="https://images.unsplash.com/photo-1542744173-8e7e53415bb0?w=1200&q=80&auto=format&fit=crop"
+              alt="Project screenshot"
+            />
+            <div class="card-body">
+              <h3>Private Call System (Prototype)</h3>
+              <p>Privacy-enabled communication tooling for enterprises.</p>
+              <p class="card-meta">Node • WebRTC • AWS</p>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section id="contact" class="container contact">
+        <h2>Contact</h2>
+        <div class="contact-grid">
+          <form
+            class="contact-form"
+            action="mailto:you@example.com"
+            method="post"
+            enctype="text/plain"
+          >
+            <label for="name">Name</label>
+            <input id="name" name="name" required />
+
+            <label for="email">Email</label>
+            <input id="email" name="email" type="email" required />
+
+            <label for="message">Message</label>
+            <textarea id="message" name="message" rows="6" required></textarea>
+
+            <button class="btn" type="submit">Send</button>
+          </form>
+
+          <div class="contact-info">
+            <h3>Get in touch</h3>
+            <p>Email: <a href="mailto:you@example.com">you@example.com</a></p>
+            <p>Location: Lagos, Nigeria</p>
+            <p>Available for freelance & full-time roles.</p>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container footer-inner">
+        <p>© <span id="year"></span> Gerald Oduigwe — Built with ❤️</p>
+        <nav class="social">
+          <a href="#">GitHub</a>
+          <a href="#">LinkedIn</a>
+        </nav>
+      </div>
+    </footer>
+
+    <script>
+      // set year
+      document.getElementById("year").textContent = new Date().getFullYear();
+    </script>
+  </body>
+</html>

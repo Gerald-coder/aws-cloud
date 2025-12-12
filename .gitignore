@@ -1,1 +1,21 @@
+**/.terraform/
+**/.terraform.lock.hcl
+**/*.tfstate
+**/*.tfstate.backup
+**/*.tfvars
+**/*.tfvars.json
+**/output
+**/state
+**/*.txt
+
+*.tfvars
+*.tfvars.json
+*.plan
+
+
+# OS files
 .DS_Store
+node_modules/
+build/
+*.local
+*.out
