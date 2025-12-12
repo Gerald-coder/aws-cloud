@@ -10,12 +10,28 @@ variable "project_name" {
   default     = "nova-tech"
 }
 
+variable "ami" {
+  description = "AMI ID for EC2 instance"
+  type        = string
+  default     = "ami-0fa91bc90632c73c9" # Ubuntu 22.04 (eu-north-1 example)
+}
+
 variable "environment" {
   description = "Deployment environment (dev, staging, prod)"
   type        = string
   default     = "dev"
 }
 
+variable "instance_type" {
+  description = "Instance type"
+  type        = string
+  default = "t3.micro"
+}
+variable "key_name" {
+  description = "key name for ssh access"
+  type        = string
+  default = "route-53-key"
+}
 
 variable "vpc_cidr" {
   description = "CIDR block for the VPC"

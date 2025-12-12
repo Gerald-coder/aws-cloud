@@ -28,3 +28,16 @@ module "vpc" {
     Tier = "public"
   }
 }
+
+
+module "ec2_web_server" {
+  source = "./modules/ec2-web-server"
+
+  name           = "${var.project_name}-${var.environment}"
+  ami            = var.ami # Ubuntu Server 22.04 LTS (HVM), SSD Volume Type
+  instance_type  = var.instance_type
+  subnet_id      = module.vpc.public_subnets_ids[0] # first public subnet
+  key_name       = var.key_name # replace with your key pair name
+  vpc_id         = module.vpc.vpc_id
+  
+}
