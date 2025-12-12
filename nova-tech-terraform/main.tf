@@ -45,6 +45,6 @@ module "ec2_web_server" {
   subnet_id      = module.vpc.public_subnets_ids[0] # first public subnet
   key_name       = var.key_name # replace with your key pair name
   vpc_id         = module.vpc.vpc_id
-  count = var.count
+  count = var.num
   
 }

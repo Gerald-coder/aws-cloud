@@ -28,7 +28,7 @@ variable "key_name" {
   description = "SSH key name"
   type        = string
 }
-variable "count" {
+variable "num" {
   description = "number of ec2"
   default = 2
   type = number
