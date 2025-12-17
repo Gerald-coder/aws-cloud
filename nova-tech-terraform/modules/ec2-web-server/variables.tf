@@ -1,4 +1,3 @@
-
 variable "name" {
   description = "Name tag for the instance"
   type        = string
@@ -32,4 +31,9 @@ variable "num" {
   description = "number of ec2"
   default = 2
   type = number
+}
+
+variable "sg_id" {
+  description = "The Security Group ID to attach to EC2 instances"
+  type        = string
 }

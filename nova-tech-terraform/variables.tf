@@ -56,3 +56,14 @@ variable "num" {
   default = 2
   type = number
 }
+variable "name" {
+  description = "Name tag for the instance"
+  type        = string
+  default = "tf-dev"
+}
+
+variable "subnet_id" {
+  description = "Subnet ID where EC2 instance will run"
+  type        = string
+  default     = ""
+}
