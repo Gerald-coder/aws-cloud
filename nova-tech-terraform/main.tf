@@ -93,5 +93,5 @@ module "ec2_web_server" {
   vpc_id         = module.vpc.vpc_id
   count = var.num
   sg_id          = aws_security_group.ec2_sg.id
-  
+  instance_profile_name = aws_iam_instance_profile.ec2_profile.name
 }

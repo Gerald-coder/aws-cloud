@@ -7,6 +7,7 @@ resource "aws_instance" "web" {
   vpc_security_group_ids = [var.sg_id]
   key_name = var.key_name
   count = var.num
+  iam_instance_profile = var.instance_profile_name
 
   associate_public_ip_address = true
 
