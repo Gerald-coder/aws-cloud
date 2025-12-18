@@ -20,9 +20,18 @@ resource "aws_instance" "web" {
   #               echo "<h1>Welcome to ${var.name} web server</h1>" > /var/www/html/index.html
   #           EOF
 
-    provisioner "file" {
-    source      = "${path.root}/scripts/bootstrap.sh"
-    destination = "/home/ubuntu/bootstrap.sh"
+
+  # -----------------------------
+  # Provisioner: remote-exec
+  # -----------------------------
+provisioner "remote-exec" {
+  inline = [ 
+    "sudo apt update -y",
+      "sudo apt install -y apache2",
+      "sudo systemctl start apache2",
+      "sudo systemctl enable apache2",
+      "echo '<h1>${var.project_name} - ${var.environment}</h1>' | sudo tee /var/www/html/index.html"
+   ]
 
     connection {
       type        = "ssh"
@@ -30,50 +39,47 @@ resource "aws_instance" "web" {
       private_key = file(var.private_key_path)
       host        = self.public_ip
     }
+}
+
+provisioner "file" {
+  source      = "${path.module}/files/index.html"
+  destination = "/home/ubuntu/index.html"
+
+  connection {
+    type        = "ssh"
+    user        = "ubuntu"
+    private_key = file(var.private_key_path)
+    host        = self.public_ip
   }
+}
 
+provisioner "file" {
+  source = "${path.module}/files/index.css"
+  destination = "/home/ubuntu/index.css"
 
-
-  provisioner "file" {
-    source      = "${path.root}/app/server.js"
-    destination = "/var/www/nova-tech/server.js"
-
-    connection {
-      type        = "ssh"
-      user        = "ubuntu"
-      private_key = file(var.private_key_path)
-      host        = self.public_ip
-    }
+  connection {
+    type        = "ssh"
+    user        = "ubuntu"
+    private_key = file(var.private_key_path)
+    host        = self.public_ip
   }
+}
 
-  provisioner "file" {
-    source      = "${path.root}/scripts/nginx.conf"
-    destination = "/home/ubuntu/nginx.conf"
+provisioner "remote-exec" {
+  inline = [
+    "sudo mv /home/ubuntu/index.html /var/www/html/index.html",
+     "sudo mv /home/ubuntu/index.css /var/www/html/index.css",
+    "sudo systemctl restart apache2"
+  ]
 
-    connection {
-      type        = "ssh"
-      user        = "ubuntu"
-      private_key = file(var.private_key_path)
-      host        = self.public_ip
-    }
+  connection {
+    type        = "ssh"
+    user        = "ubuntu"
+    private_key = file(var.private_key_path)
+    host        = self.public_ip
   }
+}
 
-  provisioner "remote-exec" {
-    inline = [
-      "chmod +x /home/ubuntu/bootstrap.sh",
-      "sudo /home/ubuntu/bootstrap.sh",
-      "sudo mv /home/ubuntu/nginx.conf /etc/nginx/sites-available/default",
-      "sudo systemctl restart nginx",
-      "node /var/www/nova-tech/server.js &"
-    ]
-
-    connection {
-      type        = "ssh"
-      user        = "ubuntu"
-      private_key = file(var.private_key_path)
-      host        = self.public_ip
-    }
-  }
 
   tags = {
     name = "${var.name}-server"

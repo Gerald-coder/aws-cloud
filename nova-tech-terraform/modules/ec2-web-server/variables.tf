@@ -46,3 +46,13 @@ variable "private_key_path" {
   description = "Path to SSH private key"
   type        = string
 }
+
+variable "project_name" {
+  description = "name of my project"
+  type = string
+}
+
+variable "environment" {
+  description = "project env"
+  type = string
+}
