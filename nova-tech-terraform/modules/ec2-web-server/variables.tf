@@ -42,3 +42,7 @@ variable "instance_profile_name" {
   description = "IAM instance profile name"
   type        = string
 }
+variable "private_key_path" {
+  description = "Path to SSH private key"
+  type        = string
+}
